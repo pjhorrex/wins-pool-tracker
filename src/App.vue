@@ -137,7 +137,7 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Roboto:900&display=swap');
-@import '/sass/_variables';
+@import '/sass/global.scss';
 
 html {
   background-color: $light;
