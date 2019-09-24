@@ -1,19 +1,22 @@
 <template>
   <div id='app'>
     <h1 class="title">{{ title }}</h1>
+    <ViewToggler/>
     <Standings :standings="standings"/>
   </div>
 </template>
 
 <script>
 import Standings from './components/Standings'
+import ViewToggler from './components/ViewToggler'
 import axios from 'axios'
 import mixins from './mixins'
 
 export default {
   name: 'NFLWinsPool',
   components: {
-    Standings
+    Standings,
+    ViewToggler
   },
   mixins: [mixins],
   data: function () {
