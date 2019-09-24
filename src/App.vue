@@ -18,7 +18,7 @@ export default {
   mixins: [mixins],
   data: function () {
     return {
-      apiLocation: 'https://api.sportsdata.io/v3/nfl/scores/json/Standings/2019?key=1a629c3b0ab44359b19f90d489a89750',
+      apiLocation: `https://api.sportsdata.io/v3/nfl/scores/json/Standings/2019?key=${ process.env.VUE_APP_SPORTSDATA_API_KEY }`,
       title: 'NFL Wins Pool',
       teams: [],
       players: {
@@ -135,20 +135,29 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Roboto:900&display=swap');
+@import '/sass/_variables';
 
-#app {
-  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+html {
+  background-color: $light;
+  color: $dark;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #5a6673;
-  margin-top: 20px;
 }
 
-.title {
-  text-transform: uppercase;
+h1 {
+  font-size: 3.2em; // 32px
+
+  &.title {
+    text-transform: uppercase;
+  }
+}
+
+#app {
+  text-align: center;
 }
 
 </style>

@@ -47,7 +47,6 @@ export default {
 
       const wholePart = Math.floor((winDiff - lossDiff) / 2)
       const decimalPart = ((winDiff - lossDiff) % 2) === 1 ? '½' : ''
-      console.log((winDiff - lossDiff) % 2)
 
       return wholePart + decimalPart
     }
@@ -57,29 +56,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../sass/variables.scss';
+@import '../sass/variables.scss';
 
+#standings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  max-width: 75rem;
+  margin: 0 auto;
+  font-size: 2.2em;
+}
+
+@media screen and (min-width: 1500px) {
   #standings {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    max-width: 750px;
-    margin: 0 auto;
+    max-width: 150rem;
   }
+}
 
-  @media screen and (min-width: 1500px) {
-    #standings {
-      max-width: 1500px;
-    }
-  }
-
-  .team-results-table {
-    margin: 10px;
-    padding: 15px;
-    background-color: $light;
-    border-radius: 15px;
-    flex: 0 1 320px;
-  }
+.team-results-table {
+  margin: 1rem;
+  padding: 1.5rem;
+  background-color: $white;
+  border-radius: 1.5rem;
+  flex: 0 1 32rem;
 
   .team-results-header,
   .team-results-body {
@@ -92,73 +91,71 @@ export default {
   .team-results-row {
     display: flex;
     flex-direction: row;
-    font-size: 22px;
     font-weight: bold;
     width: 100%;
-    padding: 5px 0;
+    padding: 0.5rem 0;
 
     &.player-header {
       border-radius: 8px;
     }
-  }
 
-  .team-results-row:not(.nfl-team-row):not(.header-row) {
-    background-color: $dark;
-    color: $light;
-  }
-
-  .nfl-team-row:not(:last-child) {
-    border-bottom: 2px $medium-light dotted;
+    &:not(.nfl-team-row):not(.header-row) {
+      background-color: $dark;
+      color: $white;
+    }
   }
 
   .team-results-row-name,
   .team-results-row-result {
-    padding: 5px 0;
+    padding: 0.5rem 0;
     display: flex;
   }
 
   .team-results-row-name {
-    padding-left: 5px;
+    padding-left: 0.5rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-left: 10px;
-  }
-
-  .team-results-row-name {
-    flex: 1 1 150px;
+    padding-left: 1rem;
+    flex: 1 1 15rem;
     justify-content: left;
   }
-
+  
   .team-results-row-result {
-    flex: 0 0 50px;
+    flex: 0 0 5rem;
     justify-content: center;
   }
 
   .nfl-team-row {
     color: $medium;
+
+    &:not(:last-child) {
+      border-bottom: 0.2rem $light dotted;
+    }
   }
 
   .nfl-team > span {
-    width: 60px;
+    width: 6rem;
     opacity: 0.75;
-    border-radius: 5px;
+    border-radius: 0.5rem;
   }
 
   .team-draft-picks {
-    padding-top: 5px;
+    padding-top: 0.5rem;
+    font-size: 0.727em;
     color: $medium;
   }
 
   .team-draft-picks-pick:not(:last-child)::after {
-    content: ",#{map-get($symbols, "nbsp")}";
+    content: ",#{ map-get($symbols, "nbsp") }";
   }
 
-  @each $team, $primary, $secondary in $teams {
+  @each $team, $colors in $teams-map {
     .nfl-team > span##{$team} {
-      background-color: $primary;
-      color: $secondary;
+      background-color: map-get($colors, 'primary');
+      color: map-get($colors, 'secondary');
     }
   }
+}
 
 </style>

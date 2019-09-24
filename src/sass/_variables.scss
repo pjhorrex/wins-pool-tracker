@@ -1,41 +1,141 @@
-$teams:
-  "PHI" #004C54 #A5ACAF,
-  "NE"  #C60C30 #002244,
-  "ARI" #97233F #FFB612,
-  "BUF" #00338D #C60C30,
-  "CIN" #FB4F14 #000000,
-  "DEN" #FB4F14 #002244,
-  "HOU" #03202F #A71930,
-  "KC"  #E31837 #FFFFFF,
-  "MIN" #4F2683 #FFC62F,
-  "NYG" #0B2265 #A71930,
-  "SF"  #B3995D #AA0000,
-  "TEN" #418FDE #0C2340,
-  "ATL" #A71930 #000000,
-  "CAR" #0085CA #101820,
-  "CLE" #311D00 #FF3C00,
-  "DET" #0076B6 #B0B7BC,
-  "IND" #002C5F #FFFFFF,
-  "LAR" #002244 #B3995D,
-  "NYJ" #125740 #FFFFFF,
-  "PIT" #101820 #FFB612,
-  "SEA" #002244 #69BE28,
-  "WAS" #773141 #FFB612,
-  "BAL" #241773 #9E7C0C,
-  "CHI" #0B162A #C83803,
-  "DAL" #869397 #041E42,
-  "GB"  #203731 #FFB612,
-  "JAX" #006778 #D7A22A,
-  "MIA" #008E97 #FC4C02,
-  "NO"  #D3BC8D #101820,
-  "OAK" #C4C9CC #000000,
-  "LAC" #0080C6 #FFC20E,
-  "TB"  #D50A0A #FF7900;
+$teams-map: (
+  PHI: (
+    primary:   #004C54,
+    secondary: #A5ACAF,
+  ),
+  NE: (
+    primary:   #C60C30,
+    secondary: #002244
+  ),
+  ARI: (
+    primary:   #97233F,
+    secondary: #FFB612
+  ),
+  BUF: (
+    primary:   #00338D,
+    secondary: #C60C30
+  ),
+  CIN: (
+    primary:   #FB4F14,
+    secondary: #000000
+  ),
+  DEN: (
+    primary:   #FB4F14,
+    secondary: #002244
+  ),
+  HOU: (
+    primary:   #03202F,
+    secondary: #A71930
+  ),
+  KC: (
+    primary:   #E31837,
+    secondary: #FFFFFF
+  ),
+  MIN: (
+    primary:   #4F2683,
+    secondary: #FFC62F
+  ),
+  NYG: (
+    primary:   #0B2265,
+    secondary: #A71930
+  ),
+  SF: (
+    primary:   #B3995D,
+    secondary: #AA0000
+  ),
+  TEN: (
+    primary:   #418FDE,
+    secondary: #0C2340
+  ),
+  ATL: (
+    primary:   #A71930,
+    secondary: #000000
+  ),
+  CAR: (
+    primary:   #0085CA,
+    secondary: #101820
+  ),
+  CLE: (
+    primary:   #311D00,
+    secondary: #FF3C00
+  ),
+  DET: (
+    primary:   #0076B6,
+    secondary: #B0B7BC
+  ),
+  IND: (
+    primary:   #002C5F,
+    secondary: #FFFFFF
+  ),
+  LAR: (
+    primary:   #002244,
+    secondary: #B3995D
+  ),
+  NYJ: (
+    primary:   #125740,
+    secondary: #FFFFFF
+  ),
+  PIT: (
+    primary:   #101820,
+    secondary: #FFB612
+  ),
+  SEA: (
+    primary:   #002244,
+    secondary: #69BE28
+  ),
+  WAS: (
+    primary:   #773141,
+    secondary: #FFB612
+  ),
+  BAL: (
+    primary:   #241773,
+    secondary: #9E7C0C
+  ),
+  CHI: (
+    primary:   #0B162A,
+    secondary: #C83803
+  ),
+  DAL: (
+    primary:   #869397,
+    secondary: #041E42
+  ),
+  GB: (
+    primary:   #203731,
+    secondary: #FFB612
+  ),
+  JAX: (
+    primary:   #006778,
+    secondary: #D7A22A
+  ),
+  MIA: (
+    primary:   #008E97,
+    secondary: #FC4C02
+  ),
+  NO: (
+    primary:   #D3BC8D,
+    secondary: #101820
+  ),
+  OAK: (
+    primary:   #C4C9CC,
+    secondary: #000000
+  ),
+  LAC: (
+    primary:   #0080C6,
+    secondary: #FFC20E
+  ),
+  TB: (
+    primary:   #D50A0A,
+    secondary: #FF7900
+  )
+);
 
-$dark: #5a6673;
+$dark:   #5a6673;
 $medium: #9d9d9d;
-$medium-light: #cdcdcd;
-$light: #eeeeee;
+$light:  #cdcdcd;
+$white:  #eeeeee;
+
+$base-font-family: 'Roboto', Helvetica, Arial, sans-serif;
+$base-font-size: 62.5%; // 1rem = 10px
 
 $symbols: (
   "nbsp": "\00a0"
