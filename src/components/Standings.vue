@@ -56,8 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../sass/global.scss';
-
 #standings {
   display: flex;
   flex-wrap: wrap;
