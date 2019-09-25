@@ -1,8 +1,9 @@
 <template>
   <div id='app'>
     <h1 class="title">{{ title }}</h1>
-    <ViewToggler/>
-    <Standings :standings="standings"/>
+    <ViewToggler @show-view="onToggleClick"/>
+    <Standings :class="{ 'hide-view': hidePlayerStandings }" :standings="standings"/>
+    <h2 :class="{ 'hide-view': hideTeamStandings }">Team Standings View Placeholder</h2>
   </div>
 </template>
 
@@ -81,7 +82,9 @@ export default {
           standings: [],
           draftpicks: [8, 14, 15, 30]
         }
-      }
+      },
+      hidePlayerStandings: false,
+      hideTeamStandings: true,
     }
   },
   methods: {
@@ -103,6 +106,15 @@ export default {
       }
 
       this.teams.sort(mixins.sortStandings)
+    },
+    onToggleClick: function (value) {
+      if (value === 'player-view') {
+        this.hidePlayerStandings = false
+        this.hideTeamStandings = true
+      } else if (value === 'team-view') {
+        this.hidePlayerStandings = true
+        this.hideTeamStandings = false
+      }
     }
   },
   computed: {
@@ -158,6 +170,10 @@ h1 {
 
 #app {
   text-align: center;
+}
+
+.hide-view {
+  display: none !important;
 }
 
 </style>

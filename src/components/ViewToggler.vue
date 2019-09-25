@@ -1,9 +1,9 @@
 <template>
     <div class="view-toggle-button">
-      <span class="toggle-button" :click="clickPlayerStandings" :class="{ active: playerStandingsActive }">
-        <FontAwesomeIcon icon="th" :click="clickTeamStandings" class="fa-fw"/>
+      <span class="toggle-button" id="player-standings-toggle" @click="clickStandingsToggle" :class="{ active: playerStandingsActive }">
+        <FontAwesomeIcon icon="th" class="fa-fw"/>
       </span>
-      <span class="toggle-button" :class="{ active: teamsStandingsActive }">
+      <span class="toggle-button" id="team-standings-toggle" @click="clickStandingsToggle" :class="{ active: teamsStandingsActive }">
         <FontAwesomeIcon icon="list" class="fa-fw"/>
       </span>
     </div>
@@ -28,13 +28,18 @@ export default {
     }
   },
   methods: {
-    clickPlayerStandings: function (event) {
-      this.playerStandingsActive = true;
-      this.teamsStandingsActive = false;
-    },
-    clickTeamStandings: function (event) {
-      this.playerStandingsActive = false;
-      this.teamsStandingsActive = true;
+    clickStandingsToggle: function (event) {
+      const id = event.currentTarget.id
+
+      if(id === 'player-standings-toggle') {
+        this.playerStandingsActive = true
+        this.teamsStandingsActive = false
+        this.$emit('show-view', 'player-view')
+      } else if (id === 'team-standings-toggle') {
+        this.playerStandingsActive = false
+        this.teamsStandingsActive = true
+        this.$emit('show-view', 'team-view')
+      }
     }
   }
 }
@@ -46,20 +51,22 @@ export default {
   font-size: 2em;
   margin-bottom: 2rem;
 
-  .active {
-    border: 0.2rem solid $dark;
-    background-color: $dark;
-    color: $light;
-    border-radius: 0.5rem;
-  }
-
   .toggle-button {
+    border: 0.2rem solid $light;
     margin: 0.2rem;
     padding: 0.5rem;
+    border-radius: 0.5rem;
 
     &:hover {
       cursor: pointer;
     }
+
+    &.active {
+      border: 0.2rem solid $dark;
+      background-color: $dark;
+      color: $light;
+    }
   }
 }
+
 </style>
