@@ -3,12 +3,14 @@
     <h1 class="title">{{ title }}</h1>
     <ViewToggler @show-view="onToggleClick"/>
     <Standings :class="{ 'hide-view': hidePlayerStandings }" :standings="playerStandings"/>
-    <h2 :class="{ 'hide-view': hideTeamStandings }">Team Standings View Placeholder</h2>
+    <!-- <h2 :class="{ 'hide-view': hideTeamStandings }">Team Standings View Placeholder</h2> -->
+    <TeamStandings :class="{ 'hide-view': hideTeamStandings }" :standings="teamStandings"/>
   </div>
 </template>
 
 <script>
 import Standings from './components/Standings'
+import TeamStandings from './components/TeamStandings'
 import ViewToggler from './components/ViewToggler'
 import axios from 'axios'
 import mixins from './mixins'
@@ -17,6 +19,7 @@ export default {
   name: 'NFLWinsPool',
   components: {
     Standings,
+    TeamStandings,
     ViewToggler
   },
   mixins: [mixins],
@@ -166,6 +169,7 @@ export default {
         return 0
       }).sort(mixins.sortStandings).map((team, index) => {
         team.rankNumber = index + 1
+        team.valueNumber = team.pickNumber - team.rankNumber
         return team
       })
     }

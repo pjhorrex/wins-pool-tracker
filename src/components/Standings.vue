@@ -148,12 +148,7 @@ export default {
     content: ",#{ map-get($symbols, "nbsp") }";
   }
 
-  @each $team, $colors in $teams-map {
-    .nfl-team > span##{$team} {
-      background-color: map-get($colors, 'primary');
-      color: map-get($colors, 'secondary');
-    }
-  }
+  @include format-teams($teams-map)
 }
 
 </style>

@@ -1,0 +1,9 @@
+@mixin format-teams($teams-map) {
+  @each $team, $colors in $teams-map {
+    .nfl-team > span##{$team} {
+      background-color: map-get($colors, 'primary');
+      color: map-get($colors, 'secondary');
+    }
+  }
+}
+
