@@ -2,7 +2,7 @@
   <div id='app'>
     <h1 class="title">{{ title }}</h1>
     <ViewToggler @show-view="onToggleClick"/>
-    <Standings :class="{ 'hide-view': hidePlayerStandings }" :standings="standings"/>
+    <Standings :class="{ 'hide-view': hidePlayerStandings }" :standings="playerStandings"/>
     <h2 :class="{ 'hide-view': hideTeamStandings }">Team Standings View Placeholder</h2>
   </div>
 </template>
@@ -118,7 +118,7 @@ export default {
     }
   },
   computed: {
-    standings: function () {
+    playerStandings: function () {
       const standings = this.players
       for (const team of this.teams) {
         for (const player of Object.keys(this.players)) {
@@ -141,6 +141,33 @@ export default {
 
         return player
       }).sort(mixins.sortStandings)
+    },
+    teamStandings: function () {
+      const teamStandings = []
+
+      for (const player of this.playerStandings) {
+        player.standings.forEach(team => {
+          team.player = {}
+          team.player.id = player.id
+          team.player.name = player.name
+          const draftPickId = player.draft.indexOf(team.team)
+          team.pickNumber = player.draftpicks[draftPickId]
+
+          teamStandings.push(team)
+        })
+      }
+
+      return teamStandings.sort((a, b) => {
+        if (a.pickNumber < b.pickNumber) {
+          return 1
+        } else if (a.pickNumber > b.pickNumber) {
+          return -1
+        }
+        return 0
+      }).sort(mixins.sortStandings).map((team, index) => {
+        team.rankNumber = index + 1
+        return team
+      })
     }
   },
   mounted () {

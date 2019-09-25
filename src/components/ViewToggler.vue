@@ -4,7 +4,7 @@
         <FontAwesomeIcon icon="th" class="fa-fw"/>
       </span>
       <span class="toggle-button" id="team-standings-toggle" @click="clickStandingsToggle" :class="{ active: teamsStandingsActive }">
-        <FontAwesomeIcon icon="list" class="fa-fw"/>
+        <FontAwesomeIcon icon="th-list" class="fa-fw"/>
       </span>
     </div>
 </template>
@@ -12,10 +12,10 @@
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTh } from '@fortawesome/free-solid-svg-icons'
-import { faList } from '@fortawesome/free-solid-svg-icons'
+import { faThList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faTh, faList)
+library.add(faTh, faThList)
 
 export default {
   components: {
