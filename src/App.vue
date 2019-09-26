@@ -183,8 +183,8 @@ export default {
 
 <style lang="scss">
 html {
-  background-color: $light;
-  color: $dark;
+  // background-color: $light;
+  //color: $dark;
   font-family: $base-font-family;
   font-size: $base-font-size;
   -webkit-font-smoothing: antialiased;

@@ -1,0 +1,82 @@
+@mixin page-theme($color1, $color2, $color3, $color4) {
+  background-color: $color3;
+  color: $color1;
+
+  // View Toggler compoenent
+  .view-toggle-button {
+    .toggle-button {
+      border-color: $color3;
+
+      &.active {
+        border-color: $color1;
+        background-color: $color1;
+        color: $color3;
+      }
+    }
+  }
+
+  // Standings component
+  .team-results-table {
+    background-color: $color4;
+
+    .team-results-row {
+      &:not(.nfl-team-row):not(.header-row) {
+        background-color: $color1;
+        color: $color4;
+      }
+    }
+
+    .nfl-team-row {
+      color: $color2;
+      &:not(:last-child) {
+        border-color: $color3;
+      }
+    }
+
+    .team-draft-picks {
+      color: $color2;
+    }
+  }
+
+  // Team Standings component
+  #team-standings {
+    background-color: $color4;
+
+    .team-standings-row {
+      color: $color2;
+
+      &:not(:last-child) {
+        border-color: $color3;
+      }
+
+      &.header-row {
+        color: $color1;
+        border-color: $color2;
+      }
+    }
+
+    .highlighted-row {
+      color: $color1;
+      background-color: lighten($color3, 5%);
+    }
+  }
+
+}
+
+body.default-theme {
+  @include page-theme($dark, $medium, $light, $white);
+}
+
+body.dark-theme {
+  @include page-theme(#aaa, #777, #555, #333);
+}
+
+body.eagles-theme {
+  @include page-theme($eagles-green, $medium, $eagles-silver, $white);
+}
+
+@media (prefers-color-scheme: dark) {
+  body.darkmode-theme {
+    @include page-theme(#aaa, #777, #555, #333);
+  }
+}

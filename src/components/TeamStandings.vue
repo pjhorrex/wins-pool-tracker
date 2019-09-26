@@ -90,7 +90,7 @@ export default {
   min-width: 34rem;
   margin: 0 auto;
   font-size: 2.2em;
-  background-color: $white;
+  // background-color: $white;
   border-radius: 1.5rem;
   padding: 1.5rem;
 
@@ -100,15 +100,17 @@ export default {
     flex-direction: row;
     font-weight: bold;
     padding: 1rem 0;
-    color: $medium;
+    // color: $medium;
 
     &:not(:last-child) {
-      border-bottom: 0.2rem $light dotted;
+      border-bottom: 0.2rem dotted;
+      // border-color: $light;
     }
 
     &.header-row {
-      color: $dark;
-      border-bottom: 0.2rem $medium solid;
+      // color: $dark;
+      border-bottom: 0.2rem solid;
+      // border-color: $medium;
       padding-bottom: 0.5rem;
     }
   }
@@ -150,7 +152,8 @@ export default {
   .nfl-team > span {
     width: 6rem;
     opacity: 0.75;
-    border-radius: 0.5rem;display: flex;
+    border-radius: 0.5rem;
+    display: flex;
     justify-content: center;
     margin: auto;
   }
@@ -164,8 +167,8 @@ export default {
   }
 
   .highlighted-row {
-    color: $dark;
-    background-color: lighten($light, 5%);
+    // color: $dark;
+    // background-color: lighten($light, 5%);
     //border-right: 1rem $light solid;
 
     .positive-value {

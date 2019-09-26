@@ -52,7 +52,8 @@ export default {
   margin-bottom: 2rem;
 
   .toggle-button {
-    border: 0.2rem solid $light;
+    border: 0.2rem solid;
+    // border-color: $light;
     margin: 0.2rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -62,9 +63,10 @@ export default {
     }
 
     &.active {
-      border: 0.2rem solid $dark;
-      background-color: $dark;
-      color: $light;
+      border: 0.2rem solid;
+      // border-color: $dark;
+      // background-color: $dark;
+      // color: $light;
     }
   }
 }

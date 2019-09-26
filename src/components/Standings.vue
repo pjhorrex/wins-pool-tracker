@@ -74,7 +74,7 @@ export default {
 .team-results-table {
   margin: 1rem;
   padding: 1.5rem;
-  background-color: $white;
+  // background-color: $white;
   border-radius: 1.5rem;
   flex: 0 1 32rem;
 
@@ -97,10 +97,12 @@ export default {
       border-radius: 8px;
     }
 
+    /*
     &:not(.nfl-team-row):not(.header-row) {
       background-color: $dark;
       color: $white;
     }
+    */
   }
 
   .team-results-row-name,
@@ -125,10 +127,11 @@ export default {
   }
 
   .nfl-team-row {
-    color: $medium;
+    // color: $medium;
 
     &:not(:last-child) {
-      border-bottom: 0.2rem $light dotted;
+      border-bottom: 0.2rem dotted;
+      // border-color: $light;
     }
   }
 
@@ -141,7 +144,7 @@ export default {
   .team-draft-picks {
     padding-top: 0.5rem;
     font-size: 0.727em;
-    color: $medium;
+    // color: $medium;
   }
 
   .team-draft-picks-pick:not(:last-child)::after {

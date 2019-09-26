@@ -1,3 +1,18 @@
+$dark:   #5a6673;
+$medium: #9d9d9d;
+$light:  #cdcdcd;
+$white:  #eeeeee;
+
+$eagles-black: #000000;
+$eagles-green: #004c55;
+$eagles-silver:#a5acaf;
+$eagles-white: #ffffff;
+
+$dark-green:   #5acc73;
+$light-green:  #9dcc9d;
+$dark-red:     #cc6673;
+$light-red:    #cc9d9d;
+
 $teams-map: (
   PHI: (
     primary:   #004C54,
@@ -128,16 +143,6 @@ $teams-map: (
     secondary: #FF7900
   )
 );
-
-$dark:   #5a6673;
-$medium: #9d9d9d;
-$light:  #cdcdcd;
-$white:  #eeeeee;
-
-$dark-green: #5acc73;
-$light-green: #9dcc9d;
-$dark-red: #cc6673;
-$light-red: #cc9d9d;
 
 $base-font-family: 'Roboto', Helvetica, Arial, sans-serif;
 $base-font-size: 62.5%; // 1rem = 10px
