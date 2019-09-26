@@ -1,4 +1,9 @@
-@mixin page-theme($color1, $color2, $color3, $color4) {
+@mixin page-theme($color-list) {
+  $color1: nth($color-list, 1);
+  $color2: nth($color-list, 2);
+  $color3: nth($color-list, 3);
+  $color4: nth($color-list, 4);
+
   background-color: $color3;
   color: $color1;
 
@@ -60,23 +65,30 @@
       background-color: lighten($color3, 5%);
     }
   }
-
 }
 
-body.default-theme {
-  @include page-theme($dark, $medium, $light, $white);
-}
+$dark-theme: #aaa, #777, #555, #333;
+$default-theme: $dark, $medium, $light, $white;
 
-body.dark-theme {
-  @include page-theme(#aaa, #777, #555, #333);
-}
+$themes-map: (
+  default: $default-theme,
+  dark: $dark-theme,
+  eagles: (
+    map-get(map-get($teams-map, 'PHI'), 'primary'),
+    $medium,
+    map-get(map-get($teams-map, 'PHI'), 'secondary'),
+    $white
+  )
+);
 
-body.eagles-theme {
-  @include page-theme($eagles-green, $medium, $eagles-silver, $white);
+@each $theme, $color-map in $themes-map {
+  body.#{$theme}-theme {
+    @include page-theme($color-map);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   body.darkmode-theme {
-    @include page-theme(#aaa, #777, #555, #333);
+    @include page-theme($dark-theme);
   }
 }

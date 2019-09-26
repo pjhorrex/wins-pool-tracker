@@ -11,6 +11,7 @@
 <script>
 import Standings from './components/Standings'
 import TeamStandings from './components/TeamStandings'
+import playerData from './data/players.json'
 import ViewToggler from './components/ViewToggler'
 import axios from 'axios'
 import mixins from './mixins'
@@ -28,66 +29,16 @@ export default {
       apiLocation: `https://api.sportsdata.io/v3/nfl/scores/json/Standings/2019?key=${ process.env.VUE_APP_SPORTSDATA_API_KEY }`,
       title: 'NFL Wins Pool',
       teams: [],
-      players: {
-        'FREMONT': {
-          id: 'FREMONT',
-          name: 'Fremont',
-          draft: ['NO', 'CAR', 'BAL', 'MIA'],
-          standings: [],
-          draftpicks: [1, 17, 19, 32]
-        },
-        'EDGE': {
-          id: 'EDGE',
-          name: 'Edge',
-          draft: ['PHI', 'SF', 'NYJ', 'CIN'],
-          standings: [],
-          draftpicks: [2, 16, 18, 31]
-        },
-        'PHIL': {
-          id: 'PHIL',
-          name: 'Phil',
-          draft: ['NE', 'GB', 'IND', 'WAS'],
-          standings: [],
-          draftpicks: [3, 13, 23, 29]
-        },
-        'MARK': {
-          id: 'MARK',
-          name: 'Mark',
-          draft: ['KC', 'PIT', 'JAX', 'NYG'],
-          standings: [],
-          draftpicks: [4, 12, 21, 28]
-        },
-        'CHRIS': {
-          id: 'CHRIS',
-          name: 'Chris',
-          draft: ['LAR', 'CHI', 'BUF', 'TB'],
-          standings: [],
-          draftpicks: [5, 10, 24, 25]
-        },
-        'TEGAN': {
-          id: 'TEGAN',
-          name: 'Tegan',
-          draft: ['LAC', 'DAL', 'DEN', 'DET'],
-          standings: [],
-          draftpicks: [6, 9, 22, 26]
-        },
-        'KEITH': {
-          id: 'KEITH',
-          name: 'Keith',
-          draft: ['HOU', 'SEA', 'TEN', 'OAK'],
-          standings: [],
-          draftpicks: [7, 11, 20, 27]
-        },
-        'MIKE': {
-          id: 'MIKE',
-          name: 'Mike',
-          draft: ['CLE', 'MIN', 'ATL', 'ARI'],
-          standings: [],
-          draftpicks: [8, 14, 15, 30]
-        }
-      },
+      players: playerData,
       hidePlayerStandings: false,
       hideTeamStandings: true,
+      theme: 'default-theme'
+    }
+  },
+  watch: {
+    theme: function (newTheme, oldTheme) {
+      document.getElementById('doc-body').classList.add(newTheme)
+      document.getElementById('doc-body').classList.remove(oldTheme)
     }
   },
   methods: {
