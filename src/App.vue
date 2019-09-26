@@ -1,38 +1,33 @@
 <template>
   <div id='app'>
     <h1 class="title">{{ title }}</h1>
-    <ViewToggler @show-view="onToggleClick"/>
-    <Standings :class="{ 'hide-view': hidePlayerStandings }" :standings="playerStandings"/>
-    <!-- <h2 :class="{ 'hide-view': hideTeamStandings }">Team Standings View Placeholder</h2> -->
-    <TeamStandings :class="{ 'hide-view': hideTeamStandings }" :standings="teamStandings"/>
+    <view-toggler @show-view="onToggleClick"/>
+    <component :is="visibleComponent.instance" :standings="visibleComponent.prop"/>
   </div>
 </template>
 
 <script>
-import Standings from './components/Standings'
-import TeamStandings from './components/TeamStandings'
-import playerData from './data/players.json'
-import ViewToggler from './components/ViewToggler'
 import axios from 'axios'
 import mixins from './mixins'
 
+const ViewToggler   = () => import(/* webpackChunkName: "view-toggler" */ '@/components/ViewToggler.vue')
+import PLAYER_DATA from './data/players.json'
+
 export default {
   name: 'NFLWinsPool',
-  components: {
-    Standings,
-    TeamStandings,
-    ViewToggler
-  },
-  mixins: [mixins],
+  components: { 'view-toggler': ViewToggler },
+  mixins: [ mixins ],
+  playerData: PLAYER_DATA,
+  teamData: [],
   data: function () {
     return {
       apiLocation: `https://api.sportsdata.io/v3/nfl/scores/json/Standings/2019?key=${ process.env.VUE_APP_SPORTSDATA_API_KEY }`,
       title: 'NFL Wins Pool',
       teams: [],
-      players: playerData,
       hidePlayerStandings: false,
       hideTeamStandings: true,
-      theme: 'default-theme'
+      theme: 'default-theme',
+      activeComponent: 'player-view'
     }
   },
   watch: {
@@ -45,10 +40,13 @@ export default {
     getStandings: function () {
       axios.get(this.apiLocation)
         .then(data => this.parseData(data.data))
+        .then(data => this.teams = data)
     },
     parseData: function (data) {
+      const newData = []
+
       for (let team of data) {
-        this.teams.push({
+        newData.push({
           team: team.Team,
           name: team.Name,
           conf: team.Conference,
@@ -59,23 +57,17 @@ export default {
         })
       }
 
-      this.teams.sort(mixins.sortStandings)
+      return newData.sort(mixins.sortStandings)
     },
     onToggleClick: function (value) {
-      if (value === 'player-view') {
-        this.hidePlayerStandings = false
-        this.hideTeamStandings = true
-      } else if (value === 'team-view') {
-        this.hidePlayerStandings = true
-        this.hideTeamStandings = false
-      }
+      this.activeComponent = value;
     }
   },
   computed: {
     playerStandings: function () {
-      const standings = this.players
+      const standings = this.$options.playerData
       for (const team of this.teams) {
-        for (const player of Object.keys(this.players)) {
+        for (const player of Object.keys(this.$options.playerData)) {
           if (standings[player].draft.includes(team.team)) {
             standings[player].standings.push(team)
           }
@@ -123,9 +115,22 @@ export default {
         team.valueNumber = team.pickNumber - team.rankNumber
         return team
       })
+    },
+    visibleComponent: function () {
+      let prop = null;
+      let comp = null;
+      if (this.activeComponent === 'player-view') {
+        prop = this.playerStandings
+        comp = () => import(/* webpackChunkName: "player-standings" */ '@/components/Standings')
+      } else if (this.activeComponent === 'team-view') {
+        prop = this.teamStandings
+        comp = () => import(/* webpackChunkName: "team-standings" */ '@/components/TeamStandings')
+      }
+
+      return {instance: comp, prop: prop}
     }
   },
-  mounted () {
+  beforeMount: function () {
     this.getStandings()
   }
 }
