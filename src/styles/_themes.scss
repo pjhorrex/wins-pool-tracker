@@ -9,6 +9,14 @@
 
   // View Toggler compoenent
   .view-toggle-button {
+    .button-group {
+      border-color: $color2;
+    }
+
+    .label {
+      color: $color2, 50%;
+    }
+
     .toggle-button {
       border-color: $color3;
 
@@ -67,7 +75,7 @@
   }
 }
 
-$dark-theme: #aaa, #777, #555, #333;
+$dark-theme: #ccc, #777, #555, #333;
 $default-theme: $dark, $medium, $light, $white;
 
 $themes-map: (

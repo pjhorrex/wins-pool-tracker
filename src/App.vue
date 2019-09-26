@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
     <h1 class="title">{{ title }}</h1>
-    <view-toggler @show-view="onToggleClick"/>
+    <view-toggler @show-view="onViewToggleClick" @select-theme="onThemeToggleClick"/>
     <component :is="visibleComponent.instance" :standings="visibleComponent.prop"/>
   </div>
 </template>
@@ -59,8 +59,11 @@ export default {
 
       return newData.sort(mixins.sortStandings)
     },
-    onToggleClick: function (value) {
+    onViewToggleClick: function (value) {
       this.activeComponent = value;
+    },
+    onThemeToggleClick: function (value) {
+      this.theme = value;
     }
   },
   computed: {

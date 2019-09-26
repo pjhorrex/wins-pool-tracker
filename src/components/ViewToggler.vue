@@ -1,11 +1,26 @@
 <template>
     <div class="view-toggle-button">
-      <span class="toggle-button" id="player-standings-toggle" @click="clickStandingsToggle" :class="{ active: playerStandingsActive }">
-        <FontAwesomeIcon icon="th" class="fa-fw"/>
-      </span>
-      <span class="toggle-button" id="team-standings-toggle" @click="clickStandingsToggle" :class="{ active: teamsStandingsActive }">
-        <FontAwesomeIcon icon="th-list" class="fa-fw"/>
-      </span>
+      <div class="button-group">
+        <span class="label">VIEW</span>
+        <span class="toggle-button" id="player-view-toggle" @click="clickToggle" :class="{ active: (activeView === $options.views.player) }">
+          <FontAwesomeIcon icon="th" class="fa-fw"/>
+        </span>
+        <span class="toggle-button" id="team-view-toggle" @click="clickToggle" :class="{ active: (activeView === $options.views.team) }">
+          <FontAwesomeIcon icon="th-list" class="fa-fw"/>
+        </span>
+      </div>
+      <div class="button-group">
+        <span class="toggle-button" id="default-theme-toggle" @click="clickToggle" :class="{ active: (activeTheme === $options.themes.default) }">
+          <FontAwesomeIcon icon="sun" class="fa-fw"/>
+        </span>
+        <span class="toggle-button" id="dark-theme-toggle" @click="clickToggle" :class="{ active: (activeTheme === $options.themes.dark) }">
+          <FontAwesomeIcon icon="moon" class="fa-fw"/>
+        </span>
+        <span class="toggle-button" id="eagles-theme-toggle" @click="clickToggle" :class="{ active: (activeTheme === $options.themes.eagles) }">
+          <FontAwesomeIcon icon="square" class="fa-fw"/>
+        </span>
+        <span class="label">THEME</span>
+      </div>
     </div>
 </template>
 
@@ -13,32 +28,51 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTh } from '@fortawesome/free-solid-svg-icons'
 import { faThList } from '@fortawesome/free-solid-svg-icons'
+import { faSun } from '@fortawesome/free-solid-svg-icons'
+import { faMoon } from '@fortawesome/free-solid-svg-icons'
+import { faSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faTh, faThList)
+library.add(faTh, faThList, faSun, faMoon, faSquare)
 
 export default {
   components: {
     FontAwesomeIcon
   },
+  views: {
+    player: 'player-view',
+    team: 'team-view'
+  },
+  themes: {
+    default: 'default-theme',
+    dark: 'dark-theme',
+    eagles: 'eagles-theme'
+  },
   data: function () {
     return {
-      playerStandingsActive: true,
-      teamsStandingsActive: false
+      activeView: this.$options.views.player,
+      activeTheme: this.$options.themes.default
     }
   },
   methods: {
-    clickStandingsToggle: function (event) {
+    clickToggle: function (event) {
       const id = event.currentTarget.id
 
-      if(id === 'player-standings-toggle') {
-        this.playerStandingsActive = true
-        this.teamsStandingsActive = false
-        this.$emit('show-view', 'player-view')
-      } else if (id === 'team-standings-toggle') {
-        this.playerStandingsActive = false
-        this.teamsStandingsActive = true
-        this.$emit('show-view', 'team-view')
+      if(id === 'player-view-toggle') {
+        this.activeView = this.$options.views.player
+        this.$emit('show-view', this.$options.views.player)
+      } else if (id === 'team-view-toggle') {
+        this.activeView = this.$options.views.team
+        this.$emit('show-view', this.$options.views.team)
+      } else if (id === 'default-theme-toggle') {
+        this.activeTheme = this.$options.themes.default
+        this.$emit('select-theme', this.$options.themes.default)
+      } else if (id === 'dark-theme-toggle') {
+        this.activeTheme = this.$options.themes.dark
+        this.$emit('select-theme', this.$options.themes.dark)
+      } else if (id === 'eagles-theme-toggle') {
+        this.activeTheme = this.$options.themes.eagles
+        this.$emit('select-theme', this.$options.themes.eagles)
       }
     }
   }
@@ -50,6 +84,35 @@ export default {
 .view-toggle-button {
   font-size: 2em;
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+
+  .label {
+    font-size: 0.75em;
+    margin: 0 1rem;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .button-group {
+    padding: 0 1.5rem;
+    border-right: 0.2rem solid;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+  }
 
   .toggle-button {
     border: 0.2rem solid;
