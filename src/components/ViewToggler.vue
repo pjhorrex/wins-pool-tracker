@@ -16,9 +16,6 @@
         <span class="toggle-button" id="dark-theme-toggle" @click="clickToggle" :class="{ active: (activeTheme === $options.themes.dark) }">
           <FontAwesomeIcon icon="moon" class="fa-fw"/>
         </span>
-        <span class="toggle-button" id="eagles-theme-toggle" @click="clickToggle" :class="{ active: (activeTheme === $options.themes.eagles) }">
-          <FontAwesomeIcon icon="square" class="fa-fw"/>
-        </span>
         <span class="label">THEME</span>
       </div>
     </div>
@@ -80,7 +77,15 @@ export default {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@media screen and (max-width: 465px) {
+  .view-toggle-button {
+    .label {
+      display: none;
+    }
+  }
+}
+
 .view-toggle-button {
   font-size: 2em;
   margin-bottom: 2rem;
