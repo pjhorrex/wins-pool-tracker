@@ -3,6 +3,7 @@
     <h1 class="title">{{ title }}</h1>
     <view-toggler @show-view="onViewToggleClick" @select-theme="onThemeToggleClick"/>
     <component :is="visibleComponent.instance" :standings="visibleComponent.prop"/>
+    <footer-component/>
   </div>
 </template>
 
@@ -10,18 +11,22 @@
 import axios from 'axios'
 import mixins from './mixins'
 
-const ViewToggler   = () => import(/* webpackChunkName: "view-toggler" */ '@/components/ViewToggler.vue')
+const ViewToggler = () => import(/* webpackChunkName: "view-toggler" */ '@/components/ViewToggler')
+const Footer = () => import(/* webpackChunckName: "footer" */ '@/components/Footer')
 import PLAYER_DATA from './data/players.json'
 
 export default {
   name: 'NFLWinsPool',
-  components: { 'view-toggler': ViewToggler },
+  components: {
+    'view-toggler': ViewToggler,
+    'footer-component': Footer
+  },
   mixins: [ mixins ],
   playerData: PLAYER_DATA,
   teamData: [],
   data: function () {
     return {
-      apiLocation: `https://api.sportsdata.io/v3/nfl/scores/json/Standings/2019?key=${ process.env.VUE_APP_SPORTSDATA_API_KEY }`,
+      apiLocation: process.env.VUE_APP_API_LOCATION,
       title: 'NFL Wins Pool',
       teams: [],
       hidePlayerStandings: false,
