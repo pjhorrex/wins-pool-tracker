@@ -96,33 +96,36 @@ export default {
         return player
       }).sort(mixins.sortStandings)
     },
-    teamStandings: function () {
-      const teamStandings = []
+    teamStandings: {
+      cache: false,
+      get: function () {
+        const teamStandings = []
 
-      for (const player of this.playerStandings) {
-        player.standings.forEach(team => {
-          team.player = {}
-          team.player.id = player.id
-          team.player.name = player.name
-          const draftPickId = player.draft.indexOf(team.team)
-          team.pickNumber = player.draftpicks[draftPickId]
+        for (const player of this.playerStandings) {
+          player.standings.forEach(team => {
+            team.player = {}
+            team.player.id = player.id
+            team.player.name = player.name
+            const draftPickId = player.draft.indexOf(team.team)
+            team.pickNumber = player.draftpicks[draftPickId]
 
-          teamStandings.push(team)
+            teamStandings.push(team)
+          })
+        }
+
+        return teamStandings.sort((a, b) => {
+          if (a.pickNumber < b.pickNumber) {
+            return 1
+          } else if (a.pickNumber > b.pickNumber) {
+            return -1
+          }
+          return 0
+        }).sort(mixins.sortStandings).map((team, index) => {
+          team.rankNumber = index + 1
+          team.valueNumber = team.pickNumber - team.rankNumber
+          return team
         })
       }
-
-      return teamStandings.sort((a, b) => {
-        if (a.pickNumber < b.pickNumber) {
-          return 1
-        } else if (a.pickNumber > b.pickNumber) {
-          return -1
-        }
-        return 0
-      }).sort(mixins.sortStandings).map((team, index) => {
-        team.rankNumber = index + 1
-        team.valueNumber = team.pickNumber - team.rankNumber
-        return team
-      })
     },
     visibleComponent: function () {
       let prop = null;
