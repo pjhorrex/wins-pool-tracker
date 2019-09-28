@@ -9,7 +9,7 @@
           <FontAwesomeIcon icon="th-list" class="fa-fw"/>
         </span>
       </div>
-      <div class="button-group">
+      <div class="button-group button-group-theme">
         <span class="toggle-button" id="default-theme-toggle" @click="clickToggle" :class="{ active: (activeTheme === $options.themes.default) }">
           <FontAwesomeIcon icon="sun" class="fa-fw"/>
         </span>
@@ -57,20 +57,45 @@ export default {
 
       if(id === 'player-view-toggle') {
         this.activeView = this.$options.views.player
-        this.$emit('show-view', this.$options.views.player)
+        //this.$emit('show-view', this.$options.views.player)
+        localStorage.setItem('active-view-button', this.$options.views.player)
       } else if (id === 'team-view-toggle') {
         this.activeView = this.$options.views.team
-        this.$emit('show-view', this.$options.views.team)
+        //this.$emit('show-view', this.$options.views.team)
+        localStorage.setItem('active-view-button', this.$options.views.team)
       } else if (id === 'default-theme-toggle') {
         this.activeTheme = this.$options.themes.default
-        this.$emit('select-theme', this.$options.themes.default)
+        //this.$emit('select-theme', this.$options.themes.default)
+        localStorage.setItem('active-theme-button', this.$options.themes.default)
       } else if (id === 'dark-theme-toggle') {
         this.activeTheme = this.$options.themes.dark
-        this.$emit('select-theme', this.$options.themes.dark)
+        //this.$emit('select-theme', this.$options.themes.dark)
+        localStorage.setItem('active-theme-button', this.$options.themes.dark)
       } else if (id === 'eagles-theme-toggle') {
         this.activeTheme = this.$options.themes.eagles
-        this.$emit('select-theme', this.$options.themes.eagles)
+        //this.$emit('select-theme', this.$options.themes.eagles)
+        localStorage.setItem('active-theme-button', this.$options.themes.eagles)
       }
+    }
+  },
+  watch: {
+    activeView: function (newValue) {
+        this.$emit('show-view', newValue)
+    },
+    activeTheme: function (newValue) {
+        this.$emit('select-theme', newValue)
+    }
+  },
+  beforeMount: function () {
+    const theme = localStorage.getItem('active-theme-button')
+    const view = localStorage.getItem('active-view-button')
+    if (theme != null ) {
+      this.activeTheme = theme
+      this.$emit('select-theme', theme)
+    }
+    if (view != null ) {
+      this.activeView = view
+      this.$emit('show-view', view)
     }
   }
 }
@@ -106,17 +131,7 @@ export default {
   }
 
   .button-group {
-    padding: 0 1.5rem;
-    border-right: 0.2rem solid;
-
-    &:first-child {
-      padding-left: 0;
-    }
-
-    &:last-child {
-      padding-right: 0;
-      border-right: 0;
-    }
+    padding: 0 2rem;
   }
 
   .toggle-button {

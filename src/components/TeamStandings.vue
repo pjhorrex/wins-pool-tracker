@@ -62,6 +62,17 @@ export default {
 
       return value
     }
+  },
+  watch: {
+    playerHighlight: function (newValue) {
+      localStorage.setItem('highlighted-player', newValue)
+    }
+  },
+  beforeMount: function() {
+    const name = localStorage.getItem('highlighted-player')
+    if (name != null) {
+      this.playerHighlight = name
+    }
   }
 }
 </script>
@@ -167,10 +178,6 @@ export default {
   }
 
   .highlighted-row {
-    // color: $dark;
-    // background-color: lighten($light, 5%);
-    //border-right: 1rem $light solid;
-
     .positive-value {
       color: $dark-green;
     }
