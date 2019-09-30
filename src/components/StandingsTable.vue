@@ -1,27 +1,11 @@
 <template>
   <div class="team-results-table">
     <div class="team-results-header">
-      <div class="team-results-row header-row">
-        <div class="team-results-row-name" v-if="gamesBack != 0">GB:&nbsp;{{ gamesBack }}</div>
-        <div class="team-results-row-name" v-else>LEADER</div>
-        <div class="team-results-row-result">W</div>
-        <div class="team-results-row-result">L</div>
-        <div class="team-results-row-result">T</div>
-      </div>
+      <standings-table-row :nflTeamRow="false" :results="{name: gamesBack, win: 'W', loss: 'L', tie: 'T'}" :tableHeader="true" :playerRow="false" />
     </div>
     <div class="team-results-body">
-      <div class="team-results-row player-header">
-        <div class="team-results-row-name">{{ standingsTable.name }}</div>
-        <div class="team-results-row-result">{{ standingsTable.win }}</div>
-        <div class="team-results-row-result">{{ standingsTable.loss }}</div>
-        <div class="team-results-row-result">{{ standingsTable.tie }}</div>
-      </div>
-      <div class="team-results-row nfl-team-row" v-for="team in standingsTable.standings" :key="team.team">
-        <div class="team-results-row-name nfl-team"><span :id="team.team">{{ team.team }}</span></div>
-        <div class="team-results-row-result">{{ team.win }}</div>
-        <div class="team-results-row-result">{{ team.loss }}</div>
-        <div class="team-results-row-result">{{ team.tie }}</div>
-      </div>
+      <standings-table-row :nflTeamRow="false" :results="standingsTable" :tableHeader="false" :playerRow="true" />
+      <standings-table-row :nflTeamRow="true" v-for="team in standingsTable.standings" :key="team.team" :results="team" :tableHeader="false" :playerRow="false" />
     </div>
     <div class="team-draft-picks">
       <span class="team-draft-picks-desc">PICKS:&nbsp;</span>
@@ -31,7 +15,12 @@
 </template>
 
 <script>
+const StandingsTableRow = () => import(/* webpackChunkName: "view-toggler" */ '@/components/StandingsTableRow')
+
 export default {
+  components: {
+    'standings-table-row': StandingsTableRow
+  },
   props: {
     standingsTable: {
       type: Object
@@ -45,10 +34,11 @@ export default {
       const winDiff = this.leader.win - this.standingsTable.win
       const lossDiff = this.leader.loss - this.standingsTable.loss
 
-      const wholePart = Math.floor((winDiff - lossDiff) / 2)
+      const wholePart = ((winDiff - lossDiff) / 2 === 0.5) ? '' : Math.floor((winDiff - lossDiff) / 2)
       const decimalPart = ((winDiff - lossDiff) % 2) === 1 ? '½' : ''
+      const gamesBack = wholePart + decimalPart
 
-      return wholePart + decimalPart
+      return gamesBack === "0" ? 'LEADER' : gamesBack
     }
   }
 }
@@ -124,7 +114,6 @@ export default {
     content: ",#{ map-get($symbols, "nbsp") }";
   }
 
-  @include format-teams($teams-map)
 }
 
 </style>
