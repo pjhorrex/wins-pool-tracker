@@ -1,3 +1,10 @@
+$transition-time: 0.15s;
+$transition-type: linear;
+$transition:
+  background-color $transition-time $transition-type,
+  color $transition-time $transition-type,
+  border-color $transition-time $transition-type;
+
 @mixin page-theme($color-list) {
   $color1: nth($color-list, 1);
   $color2: nth($color-list, 2);
@@ -9,12 +16,16 @@
   color: $color1;
 
   // View Toggler compoenent
+  transition: $transition;
   .view-toggle-button {
+    transition: $transition;
     .button-group {
+      //transition: $transition;
       border-color: $color2;
     }
 
     .label {
+      //transition: $transition;
       @if $type == 'dark' {
         color: lighten($color2, 10%);
       }
@@ -24,7 +35,12 @@
     }
 
     .toggle-button {
+      transition: $transition;
       border-color: $color3;
+
+      &:hover {
+
+      }
 
       &.active {
         border-color: $color1;
@@ -41,9 +57,11 @@
 
   // Standings component
   .team-results-table {
+    transition: $transition;
     background-color: $color4;
 
     .team-results-row {
+      transition: $transition;
       &:not(.nfl-team-row):not(.header-row) {
         background-color: $color1;
         color: $color4;
@@ -51,6 +69,7 @@
     }
 
     .nfl-team-row {
+      transition: $transition;
       color: $color2;
       &:not(:last-child) {
         border-color: $color3;
@@ -58,22 +77,27 @@
     }
 
     .team-draft-picks {
+      transition: $transition;
       color: $color2;
     }
   }
 
   // Team Standings component
   #team-standings {
+    transition: $transition;
     background-color: $color4;
 
     .team-standings-row {
+      transition: $transition;
       color: $color2;
 
       &:not(:last-child) {
+        transition: $transition;
         border-color: $color3;
       }
 
       &.header-row {
+        transition: $transition;
         color: $color1;
         border-color: $color2;
       }
@@ -82,11 +106,13 @@
 
     .team-standings-cell-player {
       span:hover {
+        transition: $transition;
         background-color: $color3;
       }
     }
 
     .highlighted-row {
+      transition: $transition;
       color: $color1;
       background-color: lighten($color3, 5%);
     }
@@ -94,6 +120,7 @@
 
   // Footer component
   .footer {
+    transition: $transition;
     @if $type == 'dark' {
       color: lighten($color2, 10%);
     }
@@ -102,6 +129,7 @@
     }
 
     a {
+      transition: $transition;
       @if $type == 'dark' {
         color: darken($color1, 1%);
       }
@@ -110,6 +138,7 @@
       }
 
       &:hover {
+        transition: $transition;
         @if $type == 'dark' {
           background-color: $color2;
         }
