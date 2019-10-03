@@ -1,7 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import StandingsTableRow from '@/components/StandingsTableRow'
-import { type } from 'os'
 
 export default function suite() {
   const wrapperFactory = (settings = {}) => {
