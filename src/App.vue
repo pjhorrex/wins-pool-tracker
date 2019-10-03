@@ -22,36 +22,36 @@ export default {
     'footer-component': Footer
   },
   mixins: [ mixins ],
-  playerData: PLAYER_DATA,
-  teamData: [],
   data: function () {
     return {
       apiLocation: process.env.VUE_APP_API_LOCATION,
       title: 'NFL Wins Pool',
-      teams: [],
-      hidePlayerStandings: false,
-      hideTeamStandings: true,
-      theme: 'default-theme',
-      activeComponent: 'player-view'
+      playerStandings: PLAYER_DATA,
+      activeTheme: 'default-theme',
+      activeComponent: 'player-view',
+      nflTeamStandingsStore: {}
     }
   },
   watch: {
-    theme: function (newTheme, oldTheme) {
-      document.getElementById('doc-body').classList.add(newTheme)
-      document.getElementById('doc-body').classList.remove(oldTheme)
+    activeTheme: {
+      handler: 'swapThemes'
+    },
+    nflTeamStandingsStore: {
+      immediate: true,
+      deep: true,
+      handler: 'buildPlayerStandings'
     }
   },
   methods: {
     getStandings: function () {
       axios.get(this.apiLocation)
         .then(data => this.parseData(data.data))
-        .then(data => this.teams = data)
+        .then(teams => this.nflTeamStandingsStore = teams)
     },
     parseData: function (data) {
-      const newData = []
-
+      const tmpObj = {}
       for (let team of data) {
-        newData.push({
+        tmpObj[team.Team] = {
           team: team.Team,
           name: team.Name,
           conf: team.Conference,
@@ -59,30 +59,31 @@ export default {
           win: team.Wins,
           tie: team.Ties,
           loss: team.Losses
-        })
+        }
       }
-
-      return newData.sort(mixins.sortStandings)
+      return tmpObj
     },
     onViewToggleClick: function (value) {
       this.activeComponent = value;
     },
     onThemeToggleClick: function (value) {
-      this.theme = value;
-    }
-  },
-  computed: {
-    playerStandings: function () {
-      const standings = this.$options.playerData
-      for (const team of this.teams) {
-        for (const player of Object.keys(this.$options.playerData)) {
-          if (standings[player].draft.includes(team.team)) {
-            standings[player].standings.push(team)
+      this.activeTheme = value;
+    },
+    buildPlayerStandings: function () {
+      const standings = this.playerStandings
+      for (const team of this.sortedTeamStandings) {
+        for (const player of this.playerStandings) {
+          if (player.draft.includes(team.team)) {
+            const index = player.standings.findIndex(x => x.team === team.team)
+            if (index >= 0) {
+              player.standings.splice(index, 1)
+            }
+            player.standings.push(team)
           }
         }
       }
 
-      return Object.values(standings).map(player => {
+      this.playerStandings =  Object.values(standings).map(player => {
         player.win = 0
         player.loss = 0
         player.tie = 0
@@ -96,36 +97,42 @@ export default {
         return player
       }).sort(mixins.sortStandings)
     },
-    teamStandings: {
-      cache: false,
-      get: function () {
-        const teamStandings = []
+    swapThemes: function (newTheme, oldTheme) {
+      document.getElementById('doc-body').classList.add(newTheme)
+      document.getElementById('doc-body').classList.remove(oldTheme)
+    }
+  },
+  computed: {
+    sortedTeamStandings: function () {
+      return Object.values(this.nflTeamStandingsStore).sort(mixins.sortStandings)
+    },
+    teamStandings: function () {
+      const teamStandings = []
 
-        for (const player of this.playerStandings) {
-          player.standings.forEach(team => {
-            team.player = {}
-            team.player.id = player.id
-            team.player.name = player.name
-            const draftPickId = player.draft.indexOf(team.team)
-            team.pickNumber = player.draftpicks[draftPickId]
+      for (const player of this.playerStandings) {
+        player.standings.forEach(team => {
+          team.player = {}
+          team.player.id = player.id
+          team.player.name = player.name
+          const draftPickId = player.draft.indexOf(team.team)
+          team.pickNumber = player.draftpicks[draftPickId]
 
-            teamStandings.push(team)
-          })
-        }
-
-        return teamStandings.sort((a, b) => {
-          if (a.pickNumber < b.pickNumber) {
-            return 1
-          } else if (a.pickNumber > b.pickNumber) {
-            return -1
-          }
-          return 0
-        }).sort(mixins.sortStandings).map((team, index) => {
-          team.rankNumber = index + 1
-          team.valueNumber = team.pickNumber - team.rankNumber
-          return team
+          teamStandings.push(team)
         })
       }
+
+      return teamStandings.sort((a, b) => {
+        if (a.pickNumber < b.pickNumber) {
+          return 1
+        } else if (a.pickNumber > b.pickNumber) {
+          return -1
+        }
+        return 0
+      }).sort(mixins.sortStandings).map((team, index) => {
+        team.rankNumber = index + 1
+        team.valueNumber = team.pickNumber - team.rankNumber
+        return team
+      })
     },
     visibleComponent: function () {
       let prop = null;
